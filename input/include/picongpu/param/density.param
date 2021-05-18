@@ -1,0 +1,126 @@
+/* Copyright 2013-2018 Axel Huebl, Rene Widera, Felix Schmitt,
+ *                     Richard Pausch, Marco Garten
+ *
+ * This file is part of PIConGPU.
+ *
+ * PIConGPU is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PIConGPU is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PIConGPU.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+
+#include "picongpu/particles/densityProfiles/profiles.def"
+/* preprocessor struct generator */
+#include <pmacc/preprocessor/struct.hpp>
+
+namespace picongpu
+{
+namespace SI
+{
+    /** Base density in particles per m^3 in the density profiles.
+     *
+     * This is often taken as reference maximum density in normalized profiles.
+     * Individual particle species can define a `densityRatio` flag relative
+     * to this value.
+     *
+     * unit: ELEMENTS/m^3
+     */
+
+     constexpr float_64 BASE_DENSITY_SI = 1.730000000000000e+26;
+}
+
+namespace densityProfiles
+{
+
+	
+	struct DensityParametere0
+    {
+        HDINLINE float_X
+        operator()(
+            const floatD_64& position_SI,
+            const float3_64& cellSize_SI
+        )
+        {            
+            const float_64 y( position_SI.y() * 1.0e6 - 400); // m -> mu m - 400 mu m
+			float_64 dens = 0;
+
+
+		/* First shallow rise */
+		
+            const float_X A1 = 2.42125169e-06;
+			const float_X B1 = 1.89153814e-03;
+			const float_X C1 = 3.94603054e-01;
+        
+		/* Second steep rise */
+        
+			const float_X A2 = 7.31109401e-05;
+			const float_X B2 = 2.93194940e-02;
+			const float_X C2 = 2.80496913e+00;
+        
+		/* Third shallow decline from peak */
+            
+			const float_X A3 = -1.41921609e-05;
+			const float_X B3 = -2.83201473e-03;
+			const float_X C3 = 8.78950064e-01;
+        
+		/* total density */ 
+	    
+			if (y<=-135) {
+				dens = A1*y*y + B1*y + C1;
+			} else if (y<=-75) {
+				dens = A2*y*y + B2*y + C2;
+			} else {
+				dens = A3*y*y + B3*y + C3;
+			}	    
+	        
+			/* set all dnanoensity to 0 before -400 mue m */
+			dens *= float_X(y > -350.0);
+
+			/* set all density to 0 after 0 mue m */
+			dens *= float_X(y < 0.0);
+
+			/* all parts of the function MUST be > 0 */
+			dens *= float_X( dens >= 0.0 );
+			return dens;        
+        }
+    };
+    
+	using densityProfilee0 = FreeFormulaImpl< DensityParametere0 >;
+
+    PMACC_STRUCT(DensityParameterH0,
+        (PMACC_C_VALUE(float_X, gasFactor, -1.0))
+        (PMACC_C_VALUE(float_X, gasPower, 4.0))
+        (PMACC_C_VALUE(uint32_t, vacuumCellsY, 100))
+        (PMACC_C_VALUE(float_64, gasCenterLeft_SI,  0.000401))
+        (PMACC_C_VALUE(float_64, gasCenterRight_SI, 0.0004010064))
+        (PMACC_C_VALUE(float_64, gasSigmaLeft_SI, 1e-29))
+        (PMACC_C_VALUE(float_64, gasSigmaRight_SI, 1e-29))
+    );
+
+    using densityProfileH0 = GaussianImpl< DensityParameterH0 >;
+
+    PMACC_STRUCT(DensityParameterC0,
+        (PMACC_C_VALUE(float_X, gasFactor, -1.0))
+        (PMACC_C_VALUE(float_X, gasPower, 4.0))
+        (PMACC_C_VALUE(uint32_t, vacuumCellsY, 100))
+        (PMACC_C_VALUE(float_64, gasCenterLeft_SI,  0.0004))
+        (PMACC_C_VALUE(float_64, gasCenterRight_SI, 0.000401))
+        (PMACC_C_VALUE(float_64, gasSigmaLeft_SI, 1e-29))
+        (PMACC_C_VALUE(float_64, gasSigmaRight_SI, 1e-29))
+    );
+
+    using densityProfileC0 = GaussianImpl< DensityParameterC0 >;
+
+}
+}

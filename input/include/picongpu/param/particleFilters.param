@@ -1,0 +1,116 @@
+namespace picongpu
+{
+namespace particles
+{
+namespace filter
+{
+    struct FunctorParticlesForwardPinhole
+    {
+        static constexpr char const * name = "forwardPinhole";
+
+        template< typename T_Particle >
+        HDINLINE bool operator()(
+            T_Particle const & particle
+        )
+        {
+            bool result = false;
+            float3_X const mom = particle[ momentum_ ];
+            float_X const absMom = math::abs( mom );
+
+            if( absMom > float_X( 0. ) )
+            {
+                /* place detector in y direction, "infinite distance" to target,
+                 * and five degree opening angle
+                 */
+                constexpr float_X openingAngle = 20.0 * PI / 180.;
+                float_X const dotP = mom.y() / absMom;
+                float_X const degForw = math::acos( dotP );
+
+                if( math::abs( degForw ) <= openingAngle * float_X( 0.5 ) )
+                    result = true;
+            }
+            return result;
+        }
+    };
+    using ParticlesForwardPinhole = generic::Free<
+       FunctorParticlesForwardPinhole
+    >;
+	
+	struct FunctorParticlesForward
+		{
+			static constexpr char const * name = "forward";
+
+			template< typename T_Particle >
+			HDINLINE bool operator()(
+				T_Particle const & particle
+			)
+			{
+				bool result = false;
+				float3_X const mom = particle[ momentum_ ];	
+
+				/* place detector in y direction, "infinite distance".*/					 					 					
+				if( mom.y() > float_X( 0. ) )	{
+					result = true;
+				}
+				return result;
+			}
+		};
+		using ParticlesForward = generic::Free<
+		   FunctorParticlesForward
+		>;
+		
+struct FunctorParticlesForwardOnAxis
+		{
+			static constexpr char const * name = "forwardOnAxis";
+
+			template< typename T_Particle >
+			HDINLINE bool operator()(
+				T_Particle const & particle
+			)
+			{
+				bool result = false;
+				float3_X const mom = particle[ momentum_ ];				
+				float_X const absPosX = math::abs( particle[ position_ ].x() );				
+
+				/* place detector in y direction, "infinite distance", on axis.*/					 					 					
+				if( mom.y() > float_X( 0. ) && absPosX <= float_X(1e-6) )	{
+					result = true;
+				}
+				return result;
+			}
+		};
+		using ParticlesForwardOnAxis = generic::Free<
+		   FunctorParticlesForwardOnAxis
+		>;
+	
+using AllParticleFilters = MakeSeq_t<
+    All,
+    ParticlesForwardPinhole,
+	ParticlesForward,
+	ParticlesForwardOnAxis	
+>;
+
+
+
+} // namespace filter
+
+/*namespace traits
+{
+    template<
+        typename T_Species
+    >
+    struct SpeciesEligibleForSolver<
+        T_Species,
+        filter::ParticlesForwardPinhole
+		//filter::ParticlesForward,
+		//filter::ParticlesForwardOnAxis
+    >
+    {
+        using type = typename pmacc::traits::HasIdentifiers<
+            typename T_Species::FrameType,
+            MakeSeq_t< momentum >
+        >::type;
+    };
+} // namespace traits*/
+} // namespace particles
+} // namespace picongpu

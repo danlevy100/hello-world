@@ -1,0 +1,65 @@
+/* Copyright 2013-2018 Axel Huebl, Anton Helm, Rene Widera, Richard Pausch,
+ *                     Alexander Debus
+ *
+ * This file is part of PIConGPU.
+ *
+ * PIConGPU is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PIConGPU is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PIConGPU.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+
+#include "picongpu/fields/laserProfiles/profiles.def"
+
+
+namespace picongpu
+{
+namespace fields
+{
+namespace laserProfiles
+{
+
+
+namespace gaussianBeam
+{
+    static constexpr uint32_t MODENUMBER = 0;
+    PMACC_CONST_VECTOR(float_X, MODENUMBER + 1, LAGUERREMODES, 1.0
+    );
+}
+    struct GaussianBeamParam
+    {
+        static constexpr float_64 WAVE_LENGTH_SI = 8.000000000000000e-07;
+        static constexpr float_64 AMPLITUDE_SI = -2.0*PI / ::picongpu::SI::ELECTRON_CHARGE_SI * 5 / WAVE_LENGTH_SI * ::picongpu::SI::ELECTRON_MASS_SI * ::picongpu::SI::SPEED_OF_LIGHT_SI * ::picongpu::SI::SPEED_OF_LIGHT_SI;
+        static constexpr float_64 PULSE_LENGTH_SI = 1.667820475990760e-14;
+        static constexpr float_64 W0_SI = 1.000000000000000e-05;
+        static constexpr float_64 FOCUS_POS_SI = 4.000000000000000e-04;
+        static constexpr float_64 PULSE_INIT = 1.600000000000000e+01;
+        static constexpr float_X LASER_PHASE = 0.000000000000000e+00;
+        static constexpr uint32_t initPlaneY = 0;
+        using LAGUERREMODES_t = gaussianBeam::LAGUERREMODES_t;
+        static constexpr uint32_t MODENUMBER = gaussianBeam::MODENUMBER;
+        enum PolarisationType
+        {
+            LINEAR_X = 1u,
+            LINEAR_Z = 2u,
+            CIRCULAR = 4u,
+        };
+        static constexpr PolarisationType Polarisation = LINEAR_X;
+    };
+    using Selected = GaussianBeam< GaussianBeamParam >;
+
+
+} // namespace laserProfiles
+} // namespace fields
+} // namespace picongpu

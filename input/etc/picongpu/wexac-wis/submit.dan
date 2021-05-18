@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# Copyright 2019-2021 Axel Huebl, Rene Widera
+#
+# This file is part of PIConGPU.
+#
+# PIConGPU is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PIConGPU is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with PIConGPU.
+# If not, see <http://www.gnu.org/licenses/>.
+#
+
+
+# PIConGPU batch script for Summit's LSF (bsub) batch system
+#   https://www.olcf.ornl.gov/for-users/system-user-guides/summit/summit-user-guide/#running-jobs
+
+#BSUB -csm y 
+#BSUB -q gpu-short
+#BSUB -W 6:00
+# Sets batch job's name
+#BSUB -J 0.1nc_lowdens
+#BSUB -n 8
+#BSUB -R rusage[mem=48000]
+# send me mails on job (-B)egin, Fi(-N)ish
+#BSUB  -u someone@example.com
+#BSUB -cwd /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_lowdens
+#B SUB -P 
+
+#B SUB -m hpe8k_hosts
+
+#BSUB -o stdout.%J
+#BSUB -e stderr.%J
+
+
+## calculations will be performed by tbg ##
+
+# remove seconds from walltime
+
+# settings that can be controlled by environment variables before submit
+
+# number of available/hosted GPUs per node in the system
+
+# required GPUs per node for the current job
+
+# number of cores to block per GPU - we got 2x22 HW CPU cores per node
+#   and we will be accounted those anyway
+
+# use ceil to caculate nodes
+
+## end calculations ##
+
+echo 'Running program...'
+echo 0.1nc_lowdens
+
+cd /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_lowdens
+echo -n "present working directory:"
+pwd
+
+
+source ~/picongpu.profile 2>/dev/null
+if [ $? -ne 0 ] ; then
+  echo "Error: PIConGPU environment profile under \"//danle/picongpu.profile\" not found!"
+  exit 1
+fi
+
+mkdir simOutput 2> /dev/null
+cd simOutput
+
+#jsrun  -N 1 -n 1 /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_lowdens/input/bin/cuda_memtest.sh
+
+#if [ $? -eq 0 ] ; then
+export OMP_NUM_THREADS=7
+
+
+mpiexec -n 8 /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_lowdens/input/bin/picongpu -d 2 4 1                    -g 10112 20000 1                    -s 94000                       -m --windowMovePoint 0.95                       --openPMD.period 2000           --openPMD.file simOutput           --openPMD.source 'E, e_chargeDensity, H_chargeDensity, H_all, C_chargeDensity, C_all'           --openPMD.ext h5                      --e_phaseSpace.period 500 --e_phaseSpace.filter all --e_phaseSpace.space y --e_phaseSpace.momentum py --e_phaseSpace.min -100 --e_phaseSpace.max 300              --fields_energy.period 500                --e_energy.period 500 --e_energy.filter all                --C_energy.period 500 --C_energy.filter all                --H_energy.period 500 --H_energy.filter all              --e_energyHistogram.period 500 --e_energyHistogram.binCount 1024                  --e_energyHistogram.minEnergy 0 --e_energyHistogram.maxEnergy 500000                  --e_energyHistogram.filter all              --H_energyHistogram.period 500 --H_energyHistogram.binCount 1024                  --H_energyHistogram.minEnergy 0 --H_energyHistogram.maxEnergy 80000                  --H_energyHistogram.filter all  --checkpoint.period 94000             --checkpoint.backend adios                        --versionOnce                      
+
+#mpiexec -n 8 /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_lowdens/input/bin/picongpu -d 2 4 1                    -g 10112 20000 1                    -s 94000                       -m --windowMovePoint 0.95                       --openPMD.period 2000           --openPMD.file simOutput           --openPMD.source 'E, e_chargeDensity, H_chargeDensity, H_all, C_chargeDensity, C_all'           --openPMD.ext h5              --e_png.period 500 --e_png.axis yx --e_png.slicePoint 0.5 --e_png.folder pngElectronsYX           --e_phaseSpace.period 500 --e_phaseSpace.filter all --e_phaseSpace.space y --e_phaseSpace.momentum py --e_phaseSpace.min -100 --e_phaseSpace.max 300              --fields_energy.period 500                --e_energy.period 500 --e_energy.filter all                --C_energy.period 500 --C_energy.filter all                --H_energy.period 500 --H_energy.filter all              --e_energyHistogram.period 500 --e_energyHistogram.binCount 1024                  --e_energyHistogram.minEnergy 0 --e_energyHistogram.maxEnergy 500000                  --e_energyHistogram.filter all              --H_energyHistogram.period 500 --H_energyHistogram.binCount 1024                  --H_energyHistogram.minEnergy 0 --H_energyHistogram.maxEnergy 80000                  --H_energyHistogram.filter all    
+
+# note: instead of the PIConGPU binary, one can also debug starting "js_task_info | sort"
+#fi
+
+#this script was created with call cd /home/labs/malkalab/danle/picInput/NCD_gasfoil/0.1nc_lowdens; /home/labs/malkalab/danle/src/picongpu/bin/tbg -s bsub -c etc/picongpu/8.cfg -t /home/labs/malkalab/danle/picOutput/LWF/tbg/submit.tpl /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.4nc
