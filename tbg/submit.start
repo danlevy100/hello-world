@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# Copyright 2019-2021 Axel Huebl, Rene Widera
+#
+# This file is part of PIConGPU.
+#
+# PIConGPU is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PIConGPU is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with PIConGPU.
+# If not, see <http://www.gnu.org/licenses/>.
+#
+
+
+# Dan Levy, March 2021.
+# 
+# There are 3 relevant GPU queues on WEXAC: gpu-short (6 hours max), gpu-medium (12 hours max)
+# and gpu-long (24 hours max). There are different GPU nodes: RTX-2000/6000/8000 and V100.
+# The nodes can be explicitly selected using the BSUB -m command.
+# The RTX-2000 and V100's do not reliably work at the moment apparently due to mpi issues.
+
+#BSUB -csm y
+#BSUB -q gpu-short
+#BSUB -W 6:00
+# Sets batch job's name
+#BSUB -J 0.1nc_hires
+#BSUB -n 32
+#BSUB -R rusage[mem=48000]
+# send me mails on job (-B)egin, Fi(-N)ish
+#BSUB  -u someone@example.com
+#BSUB -cwd /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_hires
+#B SUB -P 
+
+# Choose one of the following, comment out the others:
+# RTX-2000
+#B SUB -m asus_hosts
+# RTX-6000
+#BSUB -m hpe6k_hosts
+# RTX-8000
+#B SUB -m hpe8k_hosts
+#V100
+#B SUB -m dgx_hosts
+
+#BSUB -o stdout.%J
+#BSUB -e stderr.%J
+
+
+## calculations will be performed by tbg ##
+
+# remove seconds from walltime
+
+# settings that can be controlled by environment variables before submit
+#.TBG_profile=${PIC_PROFILE:-"${PROJWORK}//${USER}/picongpu.profile"}
+
+# number of available/hosted GPUs per node in the system
+
+# required GPUs per node for the current job
+
+# number of cores to block per GPU - we got 2x22 HW CPU cores per node
+#   and we will be accounted those anyway
+
+# use ceil to caculate nodes
+
+## end calculations ##
+
+echo 'Running program...'
+echo 0.1nc_hires
+
+cd /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_hires
+echo -n "present working directory:"
+pwd
+
+
+source ~/picongpu.profile 2>/dev/null
+if [ $? -ne 0 ] ; then
+  echo "Error: PIConGPU environment profile under \"~/picongpu.profile\" not found!"
+  exit 1
+fi
+
+mkdir simOutput 2> /dev/null
+cd simOutput
+
+#jsrun  -N 1 -n 4 /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_hires/input/bin/cuda_memtest.sh
+
+#if [ $? -eq 0 ] ; then
+export OMP_NUM_THREADS=7
+mpiexec -n 32 /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_hires/input/bin/picongpu  -d 16 2 1                    -g 20000 40000 1                    -s 192000                       -m --windowMovePoint 0.95                       --openPMD.period 4000           --openPMD.file simOutput           --openPMD.source 'E, B, e_chargeDensity, H_chargeDensity, H_all, C_chargeDensity, C_all'           --openPMD.ext h5 	     --e_phaseSpace.period 500 --e_phaseSpace.filter all --e_phaseSpace.space y --e_phaseSpace.momentum py --e_phaseSpace.min -100 --e_phaseSpace.max 300 	     --H_phaseSpace.period 500 --H_phaseSpace.filter all --H_phaseSpace.space y --H_phaseSpace.momentum py --H_phaseSpace.min -0.5 --H_phaseSpace.max 0.5              --C_phaseSpace.period 500 --C_phaseSpace.filter all --C_phaseSpace.space y --C_phaseSpace.momentum py --C_phaseSpace.min -0.5 --C_phaseSpace.max 0.5              --fields_energy.period 500                --e_energy.period 500 --e_energy.filter all                --C_energy.period 500 --C_energy.filter all                --H_energy.period 500 --H_energy.filter all              --e_energyHistogram.period 500 --e_energyHistogram.binCount 1024                  --e_energyHistogram.minEnergy 0 --e_energyHistogram.maxEnergy 500000                  --e_energyHistogram.filter all              --H_energyHistogram.period 500 --H_energyHistogram.binCount 1024                  --H_energyHistogram.minEnergy 0 --H_energyHistogram.maxEnergy 80000                  --H_energyHistogram.filter all                       --versionOnce 		      --checkpoint.period 24000 | tee output
+# note: instead of the PIConGPU binary, one can also debug starting "js_task_info | sort"
+#fi
+
+#this script was created with call cd /home/labs/malkalab/danle/picInput/NCD_gasfoil/0.1nc_hires; /home/labs/malkalab/danle/src/picongpu/bin/tbg -s bsub -c etc/picongpu/run_dan.cfg -t etc/picongpu/wexac-wis/submit_short.tpl /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_hires
