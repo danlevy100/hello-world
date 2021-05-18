@@ -1,0 +1,260 @@
+Running program...
+0.1nc_hires
+present working directory:/home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_hires
+--------------------------------------------------------------------------
+WARNING: No preset parameters were found for the device that Open MPI
+detected:
+
+  Local host:            hgn03
+  Device name:           mlx5_0
+  Device vendor ID:      0x02c9
+  Device vendor part ID: 4123
+
+Default device parameters will be used, which may result in lower
+performance.  You can edit any of the files specified by the
+btl_openib_device_param_files MCA parameter to set values for your
+device.
+
+NOTE: You can turn off this warning by setting the MCA parameter
+      btl_openib_warn_no_device_params_found to 0.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+WARNING: There are more than one active ports on host 'hgn03', but the
+default subnet GID prefix was detected on more than one of these
+ports.  If these ports are connected to different physical IB
+networks, this configuration will fail in Open MPI.  This version of
+Open MPI requires that every physically separate IB subnet that is
+used between connected MPI processes must have different subnet ID
+values.
+
+Please see this FAQ entry for more details:
+
+  http://www.open-mpi.org/faq/?category=openfabrics#ofa-default-subnet-gid
+
+NOTE: You can turn off this warning by setting the MCA parameter
+      btl_openib_warn_default_gid_prefix to 0.
+--------------------------------------------------------------------------
+PIConGPU: 0.5.0-dev
+  Build-Type: Release
+
+Third party:
+  OS:         Linux-3.10.0-1127.el7.x86_64
+  arch:       x86_64
+  CXX:        GNU (6.3.0)
+  CMake:      3.18.4
+  CUDA:       9.2.148
+  mallocMC:   2.6.0
+  Boost:      1.69.0
+  MPI:        
+    standard: 3.1
+    flavor:   OpenMPI (2.0.1)
+  PNGwriter:  NOTFOUND
+  libSplash:  1.7.0 (Format 4.0)
+  ADIOS:      1.13.1
+  openPMD:    0.14.0-dev
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Local grid size is not a multiple of supercell size. Auto adjust from 1250 to 1264
+Dimension x: Invalid global grid size. Auto adjust from 20000 to 20224
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{0,0}
+PIConGPUVerbose PHYSICS(1) | Sliding Window is ON
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{3792,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{6320,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{1264,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{5056,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{0,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{6320,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{18960,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{5056,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{17696,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{7584,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{17696,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{7584,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{18960,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{16432,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{8848,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{3792,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{12640,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{8848,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{1264,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{13904,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{10112,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{2528,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{16432,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{10112,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{2528,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{15168,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{12640,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{13904,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{11376,0}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{15168,20000}
+ new grid size (global|local|offset): {20224,40000}|{1264,20000}|{11376,20000}
+PIConGPUVerbose PHYSICS(1) | used Random Number Generator: RNGProvider2XorMin seed: 42
+PIConGPUVerbose PHYSICS(1) | Courant c*dt <= 1.00503 ? 1
+PIConGPUVerbose PHYSICS(1) | Resolving plasma oscillations?
+   Estimates are based on DensityRatio to BASE_DENSITY of each species
+   (see: density.param, speciesDefinition.param).
+   It and does not cover other forms of initialization
+PIConGPUVerbose PHYSICS(1) | species e: omega_p * dt <= 0.1 ? 0.00555916
+PIConGPUVerbose PHYSICS(1) | species H: omega_p * dt <= 0.1 ? 0.00289991
+PIConGPUVerbose PHYSICS(1) | species C: omega_p * dt <= 0.1 ? 0.00504053
+PIConGPUVerbose PHYSICS(1) | y-cells per wavelength: 250
+PIConGPUVerbose PHYSICS(1) | macro particles per device: 1213440000
+PIConGPUVerbose PHYSICS(1) | typical macro particle weighting: 661.146
+PIConGPUVerbose PHYSICS(1) | UNIT_SPEED 2.99792e+08
+PIConGPUVerbose PHYSICS(1) | UNIT_TIME 7.49195e-18
+PIConGPUVerbose PHYSICS(1) | UNIT_LENGTH 2.24603e-09
+PIConGPUVerbose PHYSICS(1) | UNIT_MASS 6.02264e-28
+PIConGPUVerbose PHYSICS(1) | UNIT_CHARGE 1.05927e-16
+PIConGPUVerbose PHYSICS(1) | UNIT_EFIELD 2.27512e+14
+PIConGPUVerbose PHYSICS(1) | UNIT_BFIELD 758898
+PIConGPUVerbose PHYSICS(1) | UNIT_ENERGY 5.41288e-11
+initialization time:  1min 48sec  75msec = 108 sec
+  0 % =        0 | time elapsed:      15min 48sec 553msec | avg time per step:   0msec
+  5 % =     9600 | time elapsed:      52min 13sec 329msec | avg time per step: 103msec
+ 10 % =    19200 | time elapsed:   1h 30min 12sec  45msec | avg time per step: 103msec
+ 15 % =    28800 | time elapsed:   2h 27min 25sec   2msec | avg time per step: 103msec
+ 20 % =    38400 | time elapsed:   3h 19min 48sec  30msec | avg time per step: 114msec
+ 25 % =    48000 | time elapsed:   4h 11min 31sec 321msec | avg time per step: 135msec
+ 30 % =    57600 | time elapsed:   4h 50min  5sec 424msec | avg time per step: 160msec
+ 35 % =    67200 | time elapsed:   5h 22min 25sec 632msec | avg time per step: 164msec
+--------------------------------------------------------------------------
+ORTE has lost communication with its daemon located on node:
+
+  hostname:  hgn11
+
+This is usually due to either a failure of the TCP network
+connection to the node, or possibly an internal failure of
+the daemon itself. We cannot recover from this failure, and
+therefore will terminate the job.
+--------------------------------------------------------------------------
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@weizmann.ac.il>
+Subject: Job 322849: <0.1nc_hires> in cluster <wexac> Exited
+
+Job <0.1nc_hires> was submitted from host <access2> by user <danle> in cluster <wexac> at Thu Apr  8 11:06:22 2021
+Job was executed on host(s) <1*hgn03>, in queue <gpu-short>, as user <danle> in cluster <wexac> at Thu Apr  8 11:05:48 2021
+                            <2*hgn11>
+                            <4*hgn09>
+                            <7*hgn06>
+                            <7*hgn08>
+                            <7*hgn04>
+                            <4*hgn07>
+</home/labs/malkalab/danle> was used as the home directory.
+</home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_hires> was used as the working directory.
+Started at Thu Apr  8 11:05:48 2021
+Terminated at Thu Apr  8 16:51:16 2021
+Results reported at Thu Apr  8 16:51:16 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/usr/bin/env bash
+# Copyright 2019-2021 Axel Huebl, Rene Widera
+#
+# This file is part of PIConGPU.
+#
+# PIConGPU is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PIConGPU is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with PIConGPU.
+# If not, see <http://www.gnu.org/licenses/>.
+#
+
+
+# Dan Levy, March 2021.
+# 
+# There are 3 relevant GPU queues on WEXAC: gpu-short (6 hours max), gpu-medium (12 hours max)
+# and gpu-long (24 hours max). There are different GPU nodes: RTX-2000/6000/8000 and V100.
+# The nodes can be explicitly selected using the BSUB -m command.
+# The RTX-2000 and V100's do not reliably work at the moment apparently due to mpi issues.
+
+#BSUB -csm y
+#BSUB -q gpu-short
+#BSUB -W 6:00
+# Sets batch job's name
+#BSUB -J 0.1nc_hires
+#BSUB -n 32
+#BSUB -R rusage[mem=48000]
+# send me mails on job (-B)egin, Fi(-N)ish
+#BSUB  -u someone@example.com
+#BSUB -cwd /home/labs/malkalab/danle/picOutput/NCD_gasfoil/0.1nc_hires
+#B SUB -P 
+
+# Choose one of the following, comment out the others:
+# RTX-2000
+#B SUB -m asus_hosts
+# RTX-6000
+#BSUB -m hpe6k_hosts
+# RTX-8000
+#B SUB -m hpe8k_hosts
+#V100
+#B SUB -m dgx_hosts
+
+
+(... more ...)
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with signal termination: 25.
+
+Resource usage summary:
+
+    CPU time :                                   519666.00 sec.
+    Max Memory :                                 1152802 MB
+    Average Memory :                             742481.94 MB
+    Total Requested Memory :                     1536000.00 MB
+    Delta Memory :                               383198.00 MB
+    Max Swap :                                   -
+    Max Processes :                              43
+    Max Threads :                                418
+    Run time :                                   20734 sec.
+    Turnaround time :                            20694 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <stderr.322849> for stderr output of this job.
+
